@@ -118,7 +118,7 @@
     if (user) {
       return [user toHash];
     } else {
-      return nil;
+      return (NSDictionary *)nil;
     }
   }];
 
