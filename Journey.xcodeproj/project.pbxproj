@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		ADBFC6DEAB4F4E14AE683583 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC0C9312904ABA8CE686A2 /* libPods.a */; };
+		E7B9E0F715CFB92F00A5551D /* DDURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B9E0F615CFB92F00A5551D /* DDURLParser.m */; };
 		E91CCEDA14E4413100DA6E96 /* ASIHTTPRequest+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E91CCED914E4413100DA6E96 /* ASIHTTPRequest+Spec.m */; };
 		E91CCEF614E4655400DA6E96 /* PFMMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E91CCEF514E4655400DA6E96 /* PFMMainWindowController.m */; };
 		E91CCEFC14E46ACB00DA6E96 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E91CCEFA14E4695600DA6E96 /* WebKit.framework */; };
@@ -90,6 +91,8 @@
 
 /* Begin PBXFileReference section */
 		3762FDED24BF40BDAF87D96A /* Pods.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		E7B9E0F515CFB92F00A5551D /* DDURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDURLParser.h; path = ../../../../Downloads/DDURLParser/DDURLParser.h; sourceTree = "<group>"; };
+		E7B9E0F615CFB92F00A5551D /* DDURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDURLParser.m; path = ../../../../Downloads/DDURLParser/DDURLParser.m; sourceTree = "<group>"; };
 		E91CCED414E4349100DA6E96 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		E91CCED814E4413100DA6E96 /* ASIHTTPRequest+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASIHTTPRequest+Spec.h"; sourceTree = "<group>"; };
 		E91CCED914E4413100DA6E96 /* ASIHTTPRequest+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASIHTTPRequest+Spec.m"; sourceTree = "<group>"; };
@@ -304,6 +307,8 @@
 		E96080E814E4D1A100127E58 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				E7B9E0F515CFB92F00A5551D /* DDURLParser.h */,
+				E7B9E0F615CFB92F00A5551D /* DDURLParser.m */,
 				E96080E914E4D1A100127E58 /* PFMHelper.h */,
 				E96080EA14E4D1A100127E58 /* PFMHelper.m */,
 			);
@@ -641,6 +646,7 @@
 				E972ADF714E829220049FFEA /* NSDictionary+PFMAdditions.m in Sources */,
 				E972ADFA14E832920049FFEA /* NSDate+SCAdditions.m in Sources */,
 				E9C75DC814F6C1D300F564A0 /* NSWindow+PFMAdditions.m in Sources */,
+				E7B9E0F715CFB92F00A5551D /* DDURLParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

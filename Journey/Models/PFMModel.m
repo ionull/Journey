@@ -14,4 +14,10 @@
   return request;
 }
 
+- (ASIFormDataRequest *)requestDataWithPath:(NSString *)path {
+    NSURL *url = [NSURL URLWithString:$str(@"%@%@", kPathAPIHost, path)];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    return request;
+}
+
 @end

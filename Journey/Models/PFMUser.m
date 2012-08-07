@@ -141,6 +141,32 @@
   return request;
 }
 
+- (ASIFormDataRequest *)postCommentCreate:(NSString*)mid : (NSString*)comment {
+    __block ASIFormDataRequest * request = [self requestDataWithPath:kCommentsAPIPath];
+    
+    [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
+    
+    [request addPostValue:mid forKey:@"moment_id"];
+    [request addPostValue:comment forKey:@"body"];
+    
+    [request setCompletionBlock:^{
+        if(request.responseStatusCode == 200) {
+            //[self parseMomentsJSON:[request responseString] insertAtTop:atTop];
+            
+            //[self.momentsDelegate didFetchMoments:[self fetchedMoments] atTop:atTop];
+        } else {
+            //[self.momentsDelegate didFailToFetchMoments];
+        }
+    }];
+    
+    [request setFailedBlock:^{
+        //[self.momentsDelegate didFailToFetchMoments];
+    }];
+    
+    [request startAsynchronous];
+    return request;
+}
+
 - (void)parseMomentsJSON:(NSString *)json
              insertAtTop:(BOOL)atTop {
   self.fetchedMoments = $marr(nil);

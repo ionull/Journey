@@ -54,6 +54,7 @@
 - (ASIHTTPRequest *)signIn;
 - (ASIHTTPRequest *)fetchMomentsNewerThan:(double)date;
 - (ASIHTTPRequest *)fetchMomentsOlderThan:(double)date;
+- (ASIHTTPRequest *)postCommentCreate:(NSString*)mid : (NSString*)comment;
 - (void)parseMomentsJSON:(NSString *)json
              insertAtTop:(BOOL)atTop;
 

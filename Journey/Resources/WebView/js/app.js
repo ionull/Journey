@@ -13,7 +13,8 @@
       Path.loadOldMomentsComplete = false;
 
       Path.handleWindowScroll();
-      window.setInterval(self.didClickRefreshButton, 15000);
+      Path.handleKeyup();
+      //window.setInterval(self.didClickRefreshButton, 15000);
       $('.friend.dot').cycle({fx: 'fade'});
     }
 
@@ -80,6 +81,34 @@
         }
       });
     }
+
+  , handleKeyup: function() {
+	  $(window).keyup(function(e) {
+		  var target = $(e.target);
+
+		  //if is comment add
+		  if(target.hasClass('comment-input')) {
+			//if is enter key, add comment
+			if(e.keyCode === 13) {
+				var mid = e.target.getAttribute('moment-id');
+				var comment = target.val();
+				//$('ul.moments').html(comment);
+				document.location.replace('#create_comment?mid=' + mid + '&comment=' + comment);
+				//self.didClickRefreshButton();
+				//document.location.replace('#refresh_feed');
+			}
+		  }
+	});
+  }
+	, log: function(url) {
+		self.didClickRefreshButton();
+		if(url) {
+			var m = $('ul.moments');
+			if(m) {
+				//m.html('url' + url);
+			}
+		}
+	}
 
   , showLoadingMessage: function() {
       $('ul.moments').append('<li class="moment fetching"></li>');

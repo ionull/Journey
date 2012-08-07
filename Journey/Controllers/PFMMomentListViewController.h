@@ -12,6 +12,7 @@
 
 - (void)refreshFeed;
 - (void)loadOldMoments;
+- (void)postCommentCreate:(NSString*)mid : (NSString*)comment;
 - (NSInteger)webViewScrollTop;
 - (NSString *)makeTemplateJSON:(NSArray *)moments;
 

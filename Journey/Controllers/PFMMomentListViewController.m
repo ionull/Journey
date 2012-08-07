@@ -1,6 +1,7 @@
 #import "PFMMomentListViewController.h"
 #import "Application.h"
 #import "SBJson.h"
+#import "DDURLParser.h"
 #import "PFMMoment.h"
 #import "PFMUser.h"
 #import "PFMPhoto.h"
@@ -88,6 +89,11 @@
   [self.webView stringByEvaluatingJavaScriptFromString:@"Path.didCompleteRefresh()"];
 }
 
+- (void)postCommentCreate:(NSString*)mid : (NSString*)comment {
+    PFMUser *user = [NSApp sharedUser];
+    [user postCommentCreate:mid :comment];
+}
+
 - (NSInteger)webViewScrollTop {
   return [[self.webView stringByEvaluatingJavaScriptFromString:@"$(document).scrollTop()"] integerValue];
 }
@@ -103,7 +109,7 @@
 - (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id<WebPolicyDecisionListener>)listener {
   if([actionInformation objectForKey:WebActionNavigationTypeKey]) {
     NSURL *url = [actionInformation objectForKey:WebActionOriginalURLKey];
-    if(url) {
+      if(url) {
       NSString *urlString = [url absoluteString];
       if([urlString hasSuffix:@"#refresh_feed"]) {
         [self refreshFeed];
@@ -115,6 +121,21 @@
         [(PathAppDelegate *)[NSApp delegate] highlightStatusItem:NO];
         [self.webView stringByEvaluatingJavaScriptFromString:@"Path.removeHashFragment()"];
         return;
+      } else {
+          NSString * const fragCreateComment = @"#create_comment";
+          BOOL isCreateComment = [urlString rangeOfString:fragCreateComment].location != NSNotFound;
+          if(isCreateComment) {
+              NSLog(@"urlString: %@", urlString);
+              //NSString *javascriptToExecute = nil;
+              //javascriptToExecute = $str(@"Path.log('%@')", urlString);
+              //[self.webView stringByEvaluatingJavaScriptFromString:javascriptToExecute];
+              DDURLParser *parser = [[[DDURLParser alloc] initWithURLString:$str(@"http://localhost/%@", [url fragment])] autorelease];
+              NSString *mid = [parser valueForVariable:@"mid"];
+              NSString *comment = [parser valueForVariable:@"comment"];
+              [self postCommentCreate:mid :comment];
+              return;
+          }
+          //return;
       }
     }
   }
