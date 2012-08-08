@@ -92,10 +92,7 @@
 			if(e.keyCode === 13) {
 				var mid = e.target.getAttribute('moment-id');
 				var comment = target.val();
-				//$('ul.moments').html(comment);
 				document.location.replace('#create_comment?mid=' + mid + '&comment=' + comment);
-				//self.didClickRefreshButton();
-				//document.location.replace('#refresh_feed');
 			}
 		  }
 	});

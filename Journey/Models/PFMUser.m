@@ -146,8 +146,9 @@
     
     [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
     
-    [request addPostValue:mid forKey:@"moment_id"];
-    [request addPostValue:comment forKey:@"body"];
+    [request setPostFormat:ASIMultipartFormDataPostFormat];
+    [request setPostValue:$str(@"{\"moment_id\":\"%@\",\"body\":\"%@\"}", mid, [comment stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]) forKey:@"post"];
+    // [request setPostValue:@"{lat:26.093885,lng:119.30904" forKey:@"location"];
     
     [request setCompletionBlock:^{
         if(request.responseStatusCode == 200) {
