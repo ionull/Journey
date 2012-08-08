@@ -146,13 +146,15 @@
     
     [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
     
+    NSDictionary* post = [NSDictionary dictionaryWithObjectsAndKeys:mid, @"moment_id", [comment stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding], @"body", nil];
+    
     [request setPostFormat:ASIMultipartFormDataPostFormat];
-    [request setPostValue:$str(@"{\"moment_id\":\"%@\",\"body\":\"%@\"}", mid, [comment stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]) forKey:@"post"];
+    [request setPostValue:[post JSONRepresentation] forKey:@"post"];
     // [request setPostValue:@"{lat:26.093885,lng:119.30904" forKey:@"location"];
     
     [request setCompletionBlock:^{
         if(request.responseStatusCode == 200) {
-            //[self parseMomentsJSON:[request responseString] insertAtTop:atTop];
+            [self parseComentsJSON:[request responseString]];
             
             //[self.momentsDelegate didFetchMoments:[self fetchedMoments] atTop:atTop];
         } else {
@@ -231,6 +233,10 @@
 
     [[NSApp sharedUsers] setObject:user forKey:userId];
   }];
+}
+
+- (void)parseCommentsJSON:(NSString *)json {
+    //NSDictionary *dict = [json JSONValue];
 }
 
 - (void)saveCredentials {

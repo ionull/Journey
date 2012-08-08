@@ -93,6 +93,8 @@
 				var mid = e.target.getAttribute('moment-id');
 				var comment = target.val();
 				document.location.replace('#create_comment?mid=' + mid + '&comment=' + comment);
+				target.val('');
+				//TODO append it immediately
 			}
 		  }
 	});
