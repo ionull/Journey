@@ -57,7 +57,7 @@
 - (ASIHTTPRequest *)postCommentCreate:(NSString*)mid : (NSString*)comment;
 - (void)parseMomentsJSON:(NSString *)json
              insertAtTop:(BOOL)atTop;
-- (void)parseComentsJSON:(NSString *)json;
+- (void)parseCommentsJSON:(NSString *)json;
 
 - (void)saveCredentials;
 - (void)loadCredentials;
@@ -83,5 +83,7 @@
                   atTop:(BOOL)atTop;
 
 - (void)didFailToFetchMoments;
+
+- (void)didFetchComments:(NSString *)comments;
 
 @end

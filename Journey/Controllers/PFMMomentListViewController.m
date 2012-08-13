@@ -94,6 +94,14 @@
     [user postCommentCreate:mid :comment];
 }
 
+- (void)didFetchComments:(NSString *)comments {
+    NSString *javascriptToExecute = nil;
+    // replace ' with \' to avoid failure
+    javascriptToExecute = $str(@"Path.didFetchedComments('%@')", [comments stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"]);
+    
+    [self.webView stringByEvaluatingJavaScriptFromString:javascriptToExecute];
+}
+
 - (NSInteger)webViewScrollTop {
   return [[self.webView stringByEvaluatingJavaScriptFromString:@"$(document).scrollTop()"] integerValue];
 }

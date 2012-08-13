@@ -81,7 +81,7 @@
             <% if(hasComments) { %>
               <% _.each(m.comments, function(c) { %>
                 <% var displayProfilePhoto = c.user && c.user.profilePhoto && c.user.profilePhoto.iOSLowResURL; %>
-                <li class='text<% if(displayProfilePhoto) { %> with_photo<% } %>'>
+                <li class='text<% if(displayProfilePhoto) { %> with_photo<% } %> comment'>
                   <% if(displayProfilePhoto) { %>
                     <div class='profile_photo' style='background-image: url(<%= c.user.profilePhoto.iOSLowResURL %>)'></div>
                   <% } %>
@@ -100,12 +100,38 @@
                 </li>
               <% }); %>
             <% } %>
-            <li class='text' style='margin-right: 8px;'>
+            <li class='text comment-create' style='margin-right: 8px;'>
               <input class='comment-input' style="width: 100%;" moment-id="<%= m.id %>"/>
             </li>
           </ul>
         <% } %>
       </li>
+    <% } %>
+  </script>
+
+  <script id='comments_template' type='application/jst'>
+    <% var hasComments = m.comments && m.comments.length > 0; %>
+    <% if(hasComments) { %>
+        <% _.each(m.comments, function(c) { %>
+             <% var displayProfilePhoto = c.user && c.user.profilePhoto && c.user.profilePhoto.iOSLowResURL; %>
+              <li class='text<% if(displayProfilePhoto) { %> with_photo<% } %> comment'>
+              <% if(displayProfilePhoto) { %>
+                  <div class='profile_photo' style='background-image: url(<%= c.user.profilePhoto.iOSLowResURL %>)'></div>
+               <% } %>
+              <p class='body'>
+                  <% if(c.user && c.user.firstName) { %>
+                    <strong><%- c.user.firstName %>:</strong>
+                  <% } %>
+                   <%= c.body %>
+              </p>
+              <p class='created_at'>
+                  <abbr class="timeago" title="<%= c.createdAt %>"></abbr>
+                  <% if(c.location && c.location.city) { %>
+                    from <%- c.location.city %>
+                  <% } %>
+              </p>
+              </li>
+        <% }); %>
     <% } %>
   </script>
 

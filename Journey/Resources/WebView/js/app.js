@@ -3,6 +3,7 @@
     templates: {
       feed: $('#feed_template').text()
     , moment: $('#moment_template').text()
+    , comments: $('#comments_template').text()
     }
 
   , refreshing: false
@@ -29,6 +30,7 @@
         // just prepend moments
         var $newMomentHTML = $(_.map(object.moments, function(m) {
           return _.template(self.templates.moment, {m: m});
+		  //xx.find('')
         }).join(''));
         $newMomentHTML.find('abbr.timeago').timeago();
         $newMomentHTML.find('.friend.dot').cycle({fx: 'fade'});
@@ -42,6 +44,51 @@
       }
       self.didCompleteRefresh();
     }
+
+  ,didFetchedComments: function(str) {
+	  var data = jQuery.parseJSON(str);
+	  // now we got comments, and should render them under moments
+	  //var m = $('ul.moments');
+	  if(!data || !data.comments) {
+		  return;
+	  }
+
+	  var comments = data.comments;
+	  var users = data.users;
+	  var locations = data.locations;
+	  var found = null;
+
+	  var mComments = [];
+	  for(var now in comments) {
+		  if(!found) {
+			  found = now;
+
+			  for(var c in comments[now]) {
+				  var current = comments[now][c];
+				  mComments.push(current);
+			  }
+
+			  //TODO diffrent momentid
+			  break;
+		  }
+	  }
+
+	  if(found) {
+		var $content = $('#content');
+		  var momentArea = $content.find('.moments');
+		  var mid = found;
+		  var moment = momentArea.find('#' + mid);
+		  var commentArea = moment.find('.comments');
+		  var commentInput = commentArea.find('.comment-create');
+		  var commentEls = commentArea.find('.comment');
+		  commentEls.remove();
+
+		  var newComments = _.template(self.templates.comments, {m: {comments: mComments}});
+		  commentInput.prepend(newComments);
+		  //render timeago
+		  moment.find("abbr.timeago").timeago();
+	  }
+  }
 
   , didClickRefreshButton: function() {
       if(!self.refreshing) {
