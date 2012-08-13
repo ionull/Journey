@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		ADBFC6DEAB4F4E14AE683583 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC0C9312904ABA8CE686A2 /* libPods.a */; };
+		E70209C715D905290028ED16 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E70209C415D904A30028ED16 /* CoreLocation.framework */; };
 		E75B9A2E15D2DFC90016AF7C /* DDURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E75B9A2D15D2DFC90016AF7C /* DDURLParser.m */; };
 		E91CCEDA14E4413100DA6E96 /* ASIHTTPRequest+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E91CCED914E4413100DA6E96 /* ASIHTTPRequest+Spec.m */; };
 		E91CCEF614E4655400DA6E96 /* PFMMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E91CCEF514E4655400DA6E96 /* PFMMainWindowController.m */; };
@@ -91,6 +92,7 @@
 
 /* Begin PBXFileReference section */
 		3762FDED24BF40BDAF87D96A /* Pods.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		E70209C415D904A30028ED16 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E75B9A2C15D2DFC90016AF7C /* DDURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDURLParser.h; sourceTree = "<group>"; };
 		E75B9A2D15D2DFC90016AF7C /* DDURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDURLParser.m; sourceTree = "<group>"; };
 		E91CCED414E4349100DA6E96 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E70209C715D905290028ED16 /* CoreLocation.framework in Frameworks */,
 				E91CCEFC14E46ACB00DA6E96 /* WebKit.framework in Frameworks */,
 				E9ADC7F714E40F6B00E39527 /* Security.framework in Frameworks */,
 				E954C6C214E40A5700DF093C /* Cocoa.framework in Frameworks */,
@@ -263,6 +266,7 @@
 		E954C6C014E40A5700DF093C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E70209C415D904A30028ED16 /* CoreLocation.framework */,
 				E91CCEFA14E4695600DA6E96 /* WebKit.framework */,
 				E9ADC7F614E40F6B00E39527 /* Security.framework */,
 				E954C6C114E40A5700DF093C /* Cocoa.framework */,

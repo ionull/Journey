@@ -134,9 +134,6 @@
           BOOL isCreateComment = [urlString rangeOfString:fragCreateComment].location != NSNotFound;
           if(isCreateComment) {
               NSLog(@"urlString: %@", urlString);
-              //NSString *javascriptToExecute = nil;
-              //javascriptToExecute = $str(@"Path.log('%@')", urlString);
-              //[self.webView stringByEvaluatingJavaScriptFromString:javascriptToExecute];
               DDURLParser *parser = [[[DDURLParser alloc] initWithURLString:$str(@"http://localhost/%@", [url fragment])] autorelease];
               NSString *mid = [parser valueForVariable:@"mid"];
               NSString *comment = [parser valueForVariable:@"comment"];

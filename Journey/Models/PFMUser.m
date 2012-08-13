@@ -146,6 +146,8 @@
     
     [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
     
+    //request location
+    
     //NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:@"26.093885", @"lat", @"119.30904", @"lng", nil];
     //NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:@"37.418648", @"lat", @"-122.03125", @"lng", nil];
     NSDictionary* post = [NSDictionary dictionaryWithObjectsAndKeys:mid, @"moment_id", [comment stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding], @"body", nil];

@@ -84,7 +84,8 @@
 		  commentEls.remove();
 
 		  var newComments = _.template(self.templates.comments, {m: {comments: mComments}});
-		  commentInput.prepend(newComments);
+		  $(newComments).insertBefore(commentInput);
+
 		  //render timeago
 		  moment.find("abbr.timeago").timeago();
 	  }
