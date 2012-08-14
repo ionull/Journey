@@ -29,6 +29,10 @@
   user.momentsDelegate = self;
 
   [[NSApp sharedUser] fetchMomentsNewerThan:0.0];
+    
+    //request location access
+    //TODO update location
+  [NSApp sharedLocationManager];
 }
 
 - (void)refreshFeed {

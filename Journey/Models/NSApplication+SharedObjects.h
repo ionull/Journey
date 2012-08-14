@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class PFMUser;
 
@@ -14,4 +15,7 @@
 - (NSMutableDictionary *)resetSharedPlaces;
 - (NSMutableDictionary *)resetSharedUsers;
 
+- (CLLocationManager *) sharedLocationManager;
+- (CLLocation *) sharedLocation;
+- (NSError *) sharedLocationNotAllow;
 @end

@@ -6,6 +6,9 @@ static PFMUser *_sharedUser = nil;
 static NSMutableDictionary *_sharedLocations = nil;
 static NSMutableDictionary *_sharedPlaces = nil;
 static NSMutableDictionary *_sharedUsers = nil;
+static CLLocationManager *_sharedLocationManager = nil;
+static CLLocation *_sharedLocation = nil;
+static NSError *_sharedLocationNotAllow = nil;
 @implementation NSApplication (SharedObjects)
 
 - (PFMUser *)sharedUser {
@@ -34,6 +37,56 @@ static NSMutableDictionary *_sharedUsers = nil;
 
     return _sharedUsers;
   }
+}
+
+- (CLLocationManager *)sharedLocationManager {
+    @synchronized(self) {
+        if(!_sharedLocationManager) {
+            _sharedLocationManager = [[CLLocationManager alloc] init];
+            _sharedLocationManager.delegate = self;
+            _sharedLocationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+            
+            // Set a movement threshold for new events.
+            _sharedLocationManager.distanceFilter = 500;
+            
+            [_sharedLocationManager startUpdatingLocation];
+        }
+        return _sharedLocationManager;
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"locaion fail!%@", error);
+    
+    //user not allow..
+    _sharedLocationNotAllow = error;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    // If it's a relatively recent event, turn off updates to save power
+    NSDate* eventDate = newLocation.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    if (abs(howRecent) < 15.0)
+    {
+    }
+    NSLog(@"latitude %+.6f, longitude %+.6f\n",
+          newLocation.coordinate.latitude,
+          newLocation.coordinate.longitude);
+    _sharedLocation = newLocation;
+    
+    //now user allow location request again.. reset error
+    _sharedLocationNotAllow = nil;
+}
+
+- (CLLocation *)sharedLocation {
+    return _sharedLocation;
+}
+
+- (NSError *)sharedLocationNotAllow {
+    return _sharedLocationNotAllow;
 }
 
 - (NSMutableDictionary *)sharedPlaces {
