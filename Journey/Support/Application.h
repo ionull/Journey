@@ -11,4 +11,5 @@
 #define kMomentsAPIPath               @"/3/moment/feed/home"
 
 #define kPathAPIHostWeb               @"https://path.com"
-#define kCommentsAPIPath              @"/3/moment/comments/add"
+#define kCommentsAddAPIPath           @"/3/moment/comments/add"
+#define kCommentsAPIPath              @"/3/moment/comments"

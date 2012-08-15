@@ -142,7 +142,7 @@
 }
 
 - (ASIFormDataRequest *)postCommentCreate:(NSString*)mid : (NSString*)comment {
-    __block ASIFormDataRequest * request = [self requestDataWithPath:kCommentsAPIPath];
+    __block ASIFormDataRequest * request = [self requestDataWithPath:kCommentsAddAPIPath];
     
     [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
     
@@ -161,6 +161,27 @@
     
     [request setPostFormat:ASIMultipartFormDataPostFormat];
     [request setPostValue:[post JSONRepresentation] forKey:@"post"];
+    
+    [request setCompletionBlock:^{
+        if(request.responseStatusCode == 200) {
+            [self parseCommentsJSON:[request responseString]];
+        } else {
+            //[self.momentsDelegate didFailToFetchMoments];
+        }
+    }];
+    
+    [request setFailedBlock:^{
+        //[self.momentsDelegate didFailToFetchMoments];
+    }];
+    
+    [request startAsynchronous];
+    return request;
+}
+
+- (ASIHTTPRequest *)getComments:(NSString*)mids {
+    __block ASIHTTPRequest * request = [self requestWithPath:$str(@"%@?moment_ids=%@", kCommentsAPIPath, mids)];
+    
+    [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
     
     [request setCompletionBlock:^{
         if(request.responseStatusCode == 200) {

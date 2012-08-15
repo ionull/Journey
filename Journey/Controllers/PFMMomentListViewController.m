@@ -137,14 +137,23 @@
           NSString * const fragCreateComment = @"#create_comment";
           BOOL isCreateComment = [urlString rangeOfString:fragCreateComment].location != NSNotFound;
           if(isCreateComment) {
-              NSLog(@"urlString: %@", urlString);
               DDURLParser *parser = [[[DDURLParser alloc] initWithURLString:$str(@"http://localhost/%@", [url fragment])] autorelease];
               NSString *mid = [parser valueForVariable:@"mid"];
               NSString *comment = [parser valueForVariable:@"comment"];
               [self postCommentCreate:mid :comment];
               return;
           }
-          //return;
+          NSLog(@"urlString: %@", urlString);
+          
+          NSString * const fragGetComments = @"#get_comments";
+          BOOL isGetComments = [urlString rangeOfString:fragGetComments].location != NSNotFound;
+          if(isGetComments) {
+              DDURLParser *parser = [[[DDURLParser alloc] initWithURLString:$str(@"http://localhost/%@", [url fragment])] autorelease];
+              NSString *mids = [parser valueForVariable:@"mids"];
+              PFMUser *user = [NSApp sharedUser];
+              [user getComments: mids];
+              return;
+          }
       }
     }
   }

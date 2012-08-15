@@ -48,7 +48,6 @@
   ,didFetchedComments: function(str) {
 	  var data = jQuery.parseJSON(str);
 	  // now we got comments, and should render them under moments
-	  //var m = $('ul.moments');
 	  if(!data || !data.comments) {
 		  return;
 	  }
@@ -56,39 +55,40 @@
 	  var comments = data.comments;
 	  var users = data.users;
 	  var locations = data.locations;
-	  var found = null;
+	  
+	  var $content = $('#content');
+	  var momentArea = $content.find('.moments');
 
-	  var mComments = [];
 	  for(var now in comments) {
-		  if(!found) {
-			  found = now;
-
-			  for(var c in comments[now]) {
-				  var current = comments[now][c];
-				  mComments.push(current);
-			  }
-
-			  //TODO diffrent momentid
-			  break;
-		  }
-	  }
-
-	  if(found) {
-		var $content = $('#content');
-		  var momentArea = $content.find('.moments');
-		  var mid = found;
-		  var moment = momentArea.find('#' + mid);
+		  var moment = momentArea.find('#' + now);
 		  var commentArea = moment.find('.comments');
-		  var commentInput = commentArea.find('.comment-create');
-		  var commentEls = commentArea.find('.comment');
-		  commentEls.remove();
+		  var commentInput = null;
+		  var commentEls = null;
 
-		  var newComments = _.template(self.templates.comments, {m: {comments: mComments}});
+		  if(commentArea.length > 0) {
+			commentEls = commentArea.find('.comment');
+			commentEls.remove();
+		  } else {
+			  moment.append($('<div class="comments-tip"></div><ul class="comments"></ul>'));
+			  commentArea = moment.find('.comments');
+		  }
+		  
+		  commentInput = commentArea.find('.comment-create');
+		  if(commentInput.length == 0) {
+			  //no comment input, create it
+			  var inputHtml = "<li class='text comment-create' style='margin-right: 8px;'><input class='comment-input' style='width: 100%;' moment-id='" + now + "'/></li>";
+			  commentArea.append($(inputHtml));
+		  }
+		  commentInput = commentArea.find('.comment-create');
+
+		  var newComments = _.template(self.templates.comments, {m: {comments: comments[now]}});
 		  $(newComments).insertBefore(commentInput);
 
 		  //render timeago
 		  moment.find("abbr.timeago").timeago();
 	  }
+
+	  //TODO all comments deleted and refresh fail cause no moment id
   }
 
   , didClickRefreshButton: function() {
@@ -118,15 +118,42 @@
   , handleWindowScroll: function() {
       $(window).scroll(function() {
         var scrollTop = $(window).scrollTop();
-        if(scrollTop + 200 >= ($(document).height() - $(window).height())) {
+		var winHeight = $(window).height();
+
+		//load older moments
+        if(scrollTop + 200 >= ($(document).height() - winHeight)) {
           if(Path.killScroll === false && Path.loadOldMomentsComplete === false) {
             Path.killScroll = true;
             Path.showLoadingMessage();
             document.location.replace('#load_old_moments');
           }
+		//clear unread status
         } else if(scrollTop <= 243) {
           document.location.replace('#clear_status_item_highlight');
         }
+
+		//TODO seen_it
+
+		//refresh comments of seen moments
+		var mids = null;
+		$('#content').find('.moment').each(function(index, moment) {
+			if(!moment) {
+				//continue
+				return true;
+			}
+
+			var offset = $(moment).offset();
+			if(offset.top > scrollTop && offset.top - scrollTop < winHeight) {
+				//document.location.replace('#get_comments?mids=' + '5028e3ad38a3ca30e0051ac2');
+				document.location.replace('#get_comments?mids=' + moment.id + '&top=' + offset.top + '&scroll=' + scrollTop);
+				return false;
+			}
+
+			if(moment.id == '5028e3ad38a3ca30e0051ac2') {
+				//document.location.replace('#get_comments?mids=' + '5028e3ad38a3ca30e0051ac2' + '&top=' + offset.top + '&scroll=' + scrollTop);
+				return false;
+			}
+		});
       });
     }
 
