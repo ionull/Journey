@@ -144,15 +144,10 @@
 
 			var offset = $(moment).offset();
 			if(offset.top > scrollTop && offset.top - scrollTop < winHeight) {
-				//document.location.replace('#get_comments?mids=' + '5028e3ad38a3ca30e0051ac2');
-				document.location.replace('#get_comments?mids=' + moment.id + '&top=' + offset.top + '&scroll=' + scrollTop);
+				document.location.replace('#get_comments?mids=' + moment.id);
 				return false;
 			}
 
-			if(moment.id == '5028e3ad38a3ca30e0051ac2') {
-				//document.location.replace('#get_comments?mids=' + '5028e3ad38a3ca30e0051ac2' + '&top=' + offset.top + '&scroll=' + scrollTop);
-				return false;
-			}
 		});
       });
     }
