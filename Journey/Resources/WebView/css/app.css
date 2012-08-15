@@ -6,8 +6,12 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-#content, #cover_photo {
-  width: 390px;
+#content {
+  width: 395px;
+}
+
+#cover_photo {
+  width: 410px;
 }
 
 #cover_photo {
@@ -19,7 +23,7 @@ body {
 
 #cover_photo .gradient {
   position: absolute;
-  width: 390px;
+  width: 410px;
   height: 100px;
   bottom: 0;
   background-image: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5));
@@ -263,7 +267,7 @@ ul.comments {
   margin: 0 0 12px 85px;
   padding: 0;
   background: #fbfbfb;
-  width: 295px;
+  width: 300px;
   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.35);
   -webkit-border-radius: 4px;
 }
