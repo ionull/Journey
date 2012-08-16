@@ -15,7 +15,7 @@
 
       Path.handleWindowScroll();
       Path.handleKeyup();
-      //window.setInterval(self.didClickRefreshButton, 15000);
+      window.setInterval(self.didClickRefreshButton, 15000);
       $('.friend.dot').cycle({fx: 'fade'});
     }
 
