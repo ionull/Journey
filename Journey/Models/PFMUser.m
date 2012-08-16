@@ -178,6 +178,32 @@
     return request;
 }
 
+- (ASIFormDataRequest *)postMomentSeenit:(NSArray*)mids {
+    __block ASIFormDataRequest * request = [self requestDataWithPath:kSeenMomentsAPIPath];
+    
+    [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
+    
+    NSDictionary* post = [NSDictionary dictionaryWithObjectsAndKeys:mids, @"moment_ids", nil];
+    
+    [request setPostFormat:ASIMultipartFormDataPostFormat];
+    [request setPostValue:[post JSONRepresentation] forKey:@"post"];
+    
+    [request setCompletionBlock:^{
+        if(request.responseStatusCode == 200) {
+            //
+        } else {
+            //
+        }
+    }];
+    
+    [request setFailedBlock:^{
+        //
+    }];
+    
+    [request startAsynchronous];
+    return request;
+}
+
 - (ASIHTTPRequest *)getComments:(NSString*)mids {
     __block ASIHTTPRequest * request = [self requestWithPath:$str(@"%@?moment_ids=%@", kCommentsAPIPath, mids)];
     
@@ -291,7 +317,7 @@
     }];
     
     NSMutableDictionary* comments = (NSMutableDictionary *)[dict objectOrNilForKey:@"comments"];
-    for(NSString* key in comments) {
+    for(NSString* key in [comments allKeys]) {
         NSMutableArray* commentsDict = (NSMutableArray*)[comments objectForKey:key];
         for (int idx = 0; idx < [commentsDict count]; idx ++) {
             PFMComment * comment = [PFMComment commentFrom:[commentsDict objectAtIndex:idx]];

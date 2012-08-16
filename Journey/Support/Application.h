@@ -13,3 +13,4 @@
 #define kPathAPIHostWeb               @"https://path.com"
 #define kCommentsAddAPIPath           @"/3/moment/comments/add"
 #define kCommentsAPIPath              @"/3/moment/comments"
+#define kSeenMomentsAPIPath           @"/3/moment/seenit"

@@ -134,6 +134,12 @@
         [self.webView stringByEvaluatingJavaScriptFromString:@"Path.removeHashFragment()"];
         return;
       } else {
+          NSString * const fragNone = @"_";
+          if ([[url fragment] isEqualToString:fragNone]) {
+              //do nothing
+              return;
+          }
+          
           NSString * const fragCreateComment = @"#create_comment";
           BOOL isCreateComment = [urlString rangeOfString:fragCreateComment].location != NSNotFound;
           if(isCreateComment) {
@@ -143,7 +149,6 @@
               [self postCommentCreate:mid :comment];
               return;
           }
-          NSLog(@"urlString: %@", urlString);
           
           NSString * const fragGetComments = @"#get_comments";
           BOOL isGetComments = [urlString rangeOfString:fragGetComments].location != NSNotFound;
@@ -154,6 +159,18 @@
               [user getComments: mids];
               return;
           }
+          
+          NSLog(@"urlString: %@", urlString);
+          NSString * const fragSeenMoments = @"#seen_it";
+          BOOL isSeenMoments = [urlString rangeOfString:fragSeenMoments].location != NSNotFound;
+          if(isSeenMoments) {
+              DDURLParser *parser = [[[DDURLParser alloc] initWithURLString:$str(@"http://localhost/%@", [url fragment])] autorelease];
+              NSString *mids = [parser valueForVariable:@"mids"];
+              PFMUser *user = [NSApp sharedUser];
+              [user postMomentSeenit: [mids componentsSeparatedByString:@","]];
+              return;
+          }
+          
       }
     }
   }

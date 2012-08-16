@@ -15,7 +15,7 @@
 
       Path.handleWindowScroll();
       Path.handleKeyup();
-      window.setInterval(self.didClickRefreshButton, 15000);
+      //window.setInterval(self.didClickRefreshButton, 15000);
       $('.friend.dot').cycle({fx: 'fade'});
     }
 
@@ -30,7 +30,6 @@
         // just prepend moments
         var $newMomentHTML = $(_.map(object.moments, function(m) {
           return _.template(self.templates.moment, {m: m});
-		  //xx.find('')
         }).join(''));
         $newMomentHTML.find('abbr.timeago').timeago();
         $newMomentHTML.find('.friend.dot').cycle({fx: 'fade'});
@@ -135,7 +134,8 @@
 		//TODO seen_it
 
 		//refresh comments of seen moments
-		var mids = null;
+		var mids = [];
+		var firstVisibleFound = false;
 		$('#content').find('.moment').each(function(index, moment) {
 			if(!moment) {
 				//continue
@@ -144,10 +144,34 @@
 
 			var offset = $(moment).offset();
 			if(offset.top > scrollTop && offset.top - scrollTop < winHeight) {
-				document.location.replace('#get_comments?mids=' + moment.id);
-				return false;
+				if(!firstVisibleFound) {
+					firstVisibleFound = true;
+				}
+				mids.push(moment.id);
+				//to find next visible
+				return true;
+			} else {
+				if(firstVisibleFound) {
+					//stop searching
+					var midList = mids.join(',');
+					//dunt request every scrolling occur
+					if(midList != self.lastScrollItems) {
+						document.location.replace('#get_comments?mids=' + midList);
+						document.location.replace('#seen_it?mids=' + midList);
+					}
+					self.lastScrollItems = midList;
+					setTimeout(function() {
+						//reset it
+						if(midList == self.lastScrollItems) {
+							self.lastScrollItems = '';
+						}
+					}, 2000);
+					return false;
+				} else {
+					//keep searching to find first visible moment
+					return true;
+				}
 			}
-
 		});
       });
     }
