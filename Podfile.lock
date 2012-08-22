@@ -1,11 +1,5 @@
 PODS:
-  - ASIHTTPRequest (1.8.1):
-    - ASIHTTPRequest/ASIWebPageRequest (= 1.8.1)
-    - ASIHTTPRequest/CloudFiles (= 1.8.1)
-    - ASIHTTPRequest/S3 (= 1.8.1)
-  - ASIHTTPRequest/ASIWebPageRequest (1.8.1)
-  - ASIHTTPRequest/CloudFiles (1.8.1)
-  - ASIHTTPRequest/S3 (1.8.1)
+  - AFNetworking (1.0RC1)
   - ConciseKit (0.1.2)
   - Expecta (0.1.3)
   - OCHamcrest (1.8)
@@ -15,7 +9,7 @@ PODS:
   - Specta (0.1.5)
 
 DEPENDENCIES:
-  - ASIHTTPRequest (~> 1.8.1)
+  - AFNetworking (~> 1.0RC1)
   - ConciseKit (~> 0.1.1)
   - Expecta (~> 0.1.3)
   - OCHamcrest (~> 1.6)

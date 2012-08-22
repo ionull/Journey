@@ -51,12 +51,12 @@
 @property(nonatomic) __weak id<PFMUserSignInDelegate> signInDelegate;
 @property(nonatomic) __weak id<PFMUserMomentsDelegate> momentsDelegate;
 
-- (ASIHTTPRequest *)signIn;
-- (ASIHTTPRequest *)fetchMomentsNewerThan:(double)date;
-- (ASIHTTPRequest *)fetchMomentsOlderThan:(double)date;
-- (ASIHTTPRequest *)postCommentCreate:(NSString*)mid : (NSString*)comment;
-- (ASIHTTPRequest *)getComments:(NSString*)mids;
-- (ASIHTTPRequest *)postMomentSeenit:(NSArray*)mids;
+- (void)signIn;
+- (void)fetchMomentsNewerThan:(double)date;
+- (void)fetchMomentsOlderThan:(double)date;
+- (void)postCommentCreate:(NSString*)mid : (NSString*)comment;
+- (void)getComments:(NSString*)mids;
+- (void)postMomentSeenit:(NSArray*)mids;
 
 - (void)parseMomentsJSON:(NSString *)json
              insertAtTop:(BOOL)atTop;

@@ -7,13 +7,11 @@
 #import "PFMPhoto.h"
 #import "PFMLocation.h"
 #import "PFMPlace.h"
+#import "Path.h"
 
 @interface PFMUser ()
 
 - (void)reset;
-- (ASIHTTPRequest *)fetchMomentsWithPath:(NSString *)path
-                                   atTop:(BOOL)atTop;
-
 @end
 
 @implementation PFMUser
@@ -59,170 +57,116 @@
   self.allMoments = $marr(nil);
 }
 
-- (ASIHTTPRequest *)signIn {
-  self.signingIn = YES;
-  __block ASIHTTPRequest *request = [self requestWithPath:@"/3/user/settings"];
-  [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
+- (void)signIn {
+    self.signingIn = YES;
+    
+    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
+    
+    [client getUserSettingsWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if([[operation response] statusCode] == 200) {
+            NSDictionary *dict = responseObject;
+            self.firstName = [[dict objectOrNilForKey:@"settings"] objectOrNilForKey:@"user_first_name"];
+            self.lastName  = [[dict objectOrNilForKey:@"settings"] objectOrNilForKey:@"user_last_name"];
+            [self saveCredentials];
+            self.signedIn = YES;
+            [self.signInDelegate didSignIn];
+        } else if([[operation response] statusCode] == 500) {
+            [self.signInDelegate didFailSignInDueToPathError];
+        } else {
+            [self.signInDelegate didFailSignInDueToInvalidCredentials];
+        }
+        self.signingIn = NO;
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self.signInDelegate didFailSignInDueToRequestError];
+        self.signingIn = NO;
+    }];
+}
 
-  [request setCompletionBlock:^{
-    if(request.responseStatusCode == 200) {
-      NSDictionary *dict = [[request responseString] JSONValue];
-      self.firstName = [[dict objectOrNilForKey:@"settings"] objectOrNilForKey:@"user_first_name"];
-      self.lastName  = [[dict objectOrNilForKey:@"settings"] objectOrNilForKey:@"user_last_name"];
-      [self saveCredentials];
-      self.signedIn = YES;
-      [self.signInDelegate didSignIn];
-    } else if (request.responseStatusCode == 500) {
-      [self.signInDelegate didFailSignInDueToPathError];
+- (void) didFetchMomentsSuccessWithOperation: (AFHTTPRequestOperation *) operation resonse:(id) responseObject atTop:(BOOL) atTop {
+    if([[operation response] statusCode] == 200) {
+        [self parseMomentsJSON:[operation responseString] insertAtTop:atTop];
+        [self.momentsDelegate didFetchMoments:[self fetchedMoments] atTop:atTop];
     } else {
-      [self.signInDelegate didFailSignInDueToInvalidCredentials];
-    }
-    self.signingIn = NO;
-  }];
-
-  [request setFailedBlock:^{
-    [self.signInDelegate didFailSignInDueToRequestError];
-    self.signingIn = NO;
-  }];
-
-  [request startAsynchronous];
-  return request;
-}
-
-- (ASIHTTPRequest *)fetchMomentsNewerThan:(double)date {
-  NSString * path = nil;
-
-  if (date != 0.0) {
-    path = $str(@"%@?newer_than=%f", kMomentsAPIPath, date);
-  } else {
-    path = kMomentsAPIPath;
-  }
-
-  return [self fetchMomentsWithPath:path atTop:YES];
-}
-
-- (ASIHTTPRequest *)fetchMomentsOlderThan:(double)date {
-  NSString * path = nil;
-
-  if (date != 0.0) {
-    path = $str(@"%@?older_than=%f", kMomentsAPIPath, date);
-  } else {
-    path = kMomentsAPIPath;
-  }
-
-  return [self fetchMomentsWithPath:path atTop:NO];
-}
-
-
-- (ASIHTTPRequest *)fetchMomentsWithPath:(NSString *)path
-                                   atTop:(BOOL)atTop {
-  self.fetchingMoments = YES;
-
-  __block ASIHTTPRequest * request = [self requestWithPath:path];
-
-  [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
-
-  [request setCompletionBlock:^{
-    if(request.responseStatusCode == 200) {
-      [self parseMomentsJSON:[request responseString] insertAtTop:atTop];
-
-      [self.momentsDelegate didFetchMoments:[self fetchedMoments] atTop:atTop];
-    } else {
-      [self.momentsDelegate didFailToFetchMoments];
+        [self.momentsDelegate didFailToFetchMoments];
     }
     self.fetchingMoments = NO;
-  }];
-
-  [request setFailedBlock:^{
-    [self.momentsDelegate didFailToFetchMoments];
-  }];
-
-  [request startAsynchronous];
-  return request;
 }
 
-- (ASIFormDataRequest *)postCommentCreate:(NSString*)mid : (NSString*)comment {
-    __block ASIFormDataRequest * request = [self requestDataWithPath:kCommentsAddAPIPath];
+- (void) didFetchMomentsFailureWithOperation: (AFHTTPRequestOperation *) operation error:(NSError *) error {
+    [self.momentsDelegate didFailToFetchMoments];
+    self.fetchingMoments = NO;
+}
+
+- (void)fetchMomentsNewerThan:(double)date {
+    self.fetchingMoments = YES;
     
-    [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
+    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
     
+    [client getMomentFeedHomeNewerThan:date success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self didFetchMomentsSuccessWithOperation:operation
+                                          resonse:responseObject
+                                            atTop:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self didFetchMomentsFailureWithOperation:operation error:error];
+    }];
+}
+
+- (void)fetchMomentsOlderThan:(double)date {
+    self.fetchingMoments = YES;
+    
+    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
+    
+    [client getMomentFeedHomeOlderThan:date success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self didFetchMomentsSuccessWithOperation:operation
+                                          resonse:responseObject
+                                            atTop:NO];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self didFetchMomentsFailureWithOperation:operation error:error];
+    }];
+}
+
+- (void)postCommentCreate:(NSString*)mid : (NSString*)comment {
     //request location
     [NSApp sharedLocationManager];
     
     //NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:@"26.093885", @"lat", @"119.30904", @"lng", nil];
     //NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:@"37.418648", @"lat", @"-122.03125", @"lng", nil];
-    NSDictionary* post;
-    if([NSApp sharedLocation] == nil) {
-        post = [NSDictionary dictionaryWithObjectsAndKeys:mid, @"moment_id", [comment stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding], @"body", nil];
-    } else {
-        NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:$str(@"%+.6f", [NSApp sharedLocation].coordinate.latitude), @"lat", $str(@"%+.6f", [NSApp sharedLocation].coordinate.longitude), @"lng", nil];
-        post = [NSDictionary dictionaryWithObjectsAndKeys:mid, @"moment_id", [comment stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding], @"body", location, @"location", nil];
-    }
     
-    [request setPostFormat:ASIMultipartFormDataPostFormat];
-    [request setPostValue:[post JSONRepresentation] forKey:@"post"];
+    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
     
-    [request setCompletionBlock:^{
-        if(request.responseStatusCode == 200) {
-            [self parseCommentsJSON:[request responseString]];
-        } else {
-            //[self.momentsDelegate didFailToFetchMoments];
-        }
-    }];
-    
-    [request setFailedBlock:^{
-        //[self.momentsDelegate didFailToFetchMoments];
-    }];
-    
-    [request startAsynchronous];
-    return request;
-}
-
-- (ASIFormDataRequest *)postMomentSeenit:(NSArray*)mids {
-    __block ASIFormDataRequest * request = [self requestDataWithPath:kSeenMomentsAPIPath];
-    
-    [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
-    
-    NSDictionary* post = [NSDictionary dictionaryWithObjectsAndKeys:mids, @"moment_ids", nil];
-    
-    [request setPostFormat:ASIMultipartFormDataPostFormat];
-    [request setPostValue:[post JSONRepresentation] forKey:@"post"];
-    
-    [request setCompletionBlock:^{
-        if(request.responseStatusCode == 200) {
-            //
+    [client postComment:comment toMoment:mid at:[NSApp sharedLocation] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if([[operation response] statusCode] == 200) {
+            [self parseCommentsJSON:[operation responseString]];
         } else {
             //
         }
-    }];
-    
-    [request setFailedBlock:^{
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //
     }];
-    
-    [request startAsynchronous];
-    return request;
 }
 
-- (ASIHTTPRequest *)getComments:(NSString*)mids {
-    __block ASIHTTPRequest * request = [self requestWithPath:$str(@"%@?moment_ids=%@", kCommentsAPIPath, mids)];
+- (void)postMomentSeenit:(NSArray*)mids {
+    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
     
-    [request addBasicAuthenticationHeaderWithUsername:self.email andPassword:self.password];
+    [client postMomentSeenitOf:mids success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //
+    }];
+}
+
+- (void)getComments:(NSString*)mids {
+    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
     
-    [request setCompletionBlock:^{
-        if(request.responseStatusCode == 200) {
-            [self parseCommentsJSON:[request responseString]];
+    [client getMomentCommentsOf:[mids componentsSeparatedByString:@","] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if([[operation response] statusCode] == 200) {
+            [self parseCommentsJSON:[operation responseString]];
         } else {
-            //[self.momentsDelegate didFailToFetchMoments];
+            //
         }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //
     }];
-    
-    [request setFailedBlock:^{
-        //[self.momentsDelegate didFailToFetchMoments];
-    }];
-    
-    [request startAsynchronous];
-    return request;
 }
 
 - (void)parseMomentsJSON:(NSString *)json

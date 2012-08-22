@@ -10,6 +10,7 @@
 		ADBFC6DEAB4F4E14AE683583 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC0C9312904ABA8CE686A2 /* libPods.a */; };
 		E70209C715D905290028ED16 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E70209C415D904A30028ED16 /* CoreLocation.framework */; };
 		E75B9A2E15D2DFC90016AF7C /* DDURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E75B9A2D15D2DFC90016AF7C /* DDURLParser.m */; };
+		E7E5CC4515E4906B000D961B /* Path.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E5CC4415E4906B000D961B /* Path.m */; };
 		E91CCEDA14E4413100DA6E96 /* ASIHTTPRequest+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E91CCED914E4413100DA6E96 /* ASIHTTPRequest+Spec.m */; };
 		E91CCEF614E4655400DA6E96 /* PFMMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E91CCEF514E4655400DA6E96 /* PFMMainWindowController.m */; };
 		E91CCEFC14E46ACB00DA6E96 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E91CCEFA14E4695600DA6E96 /* WebKit.framework */; };
@@ -95,6 +96,8 @@
 		E70209C415D904A30028ED16 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E75B9A2C15D2DFC90016AF7C /* DDURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDURLParser.h; sourceTree = "<group>"; };
 		E75B9A2D15D2DFC90016AF7C /* DDURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDURLParser.m; sourceTree = "<group>"; };
+		E7E5CC4315E4906B000D961B /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Path.h; sourceTree = "<group>"; };
+		E7E5CC4415E4906B000D961B /* Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Path.m; sourceTree = "<group>"; };
 		E91CCED414E4349100DA6E96 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		E91CCED814E4413100DA6E96 /* ASIHTTPRequest+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASIHTTPRequest+Spec.h"; sourceTree = "<group>"; };
 		E91CCED914E4413100DA6E96 /* ASIHTTPRequest+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASIHTTPRequest+Spec.m"; sourceTree = "<group>"; };
@@ -228,6 +231,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E7E5CC4215E4906B000D961B /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				E7E5CC4315E4906B000D961B /* Path.h */,
+				E7E5CC4415E4906B000D961B /* Path.m */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
 		E91CCEE314E44D0F00DA6E96 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +397,7 @@
 		E9FD374E14E40C80007F90AF /* Journey */ = {
 			isa = PBXGroup;
 			children = (
+				E7E5CC4215E4906B000D961B /* Interfaces */,
 				E972ADF014E825000049FFEA /* Lib */,
 				E9FD375214E40C80007F90AF /* Models */,
 				E9FD375F14E40C80007F90AF /* Views */,
@@ -651,6 +664,7 @@
 				E972ADFA14E832920049FFEA /* NSDate+SCAdditions.m in Sources */,
 				E9C75DC814F6C1D300F564A0 /* NSWindow+PFMAdditions.m in Sources */,
 				E75B9A2E15D2DFC90016AF7C /* DDURLParser.m in Sources */,
+				E7E5CC4515E4906B000D961B /* Path.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
