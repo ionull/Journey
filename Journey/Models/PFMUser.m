@@ -57,10 +57,14 @@
   self.allMoments = $marr(nil);
 }
 
+- (Path *)getPath {
+    return [[[Path alloc] initWithUsername:self.email andPassword:self.password]autorelease];
+}
+
 - (void)signIn {
     self.signingIn = YES;
     
-    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
+    Path *client = [self getPath];
     
     [client getUserSettingsWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if([[operation response] statusCode] == 200) {
@@ -100,7 +104,7 @@
 - (void)fetchMomentsNewerThan:(double)date {
     self.fetchingMoments = YES;
     
-    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
+    Path *client = [self getPath];
     
     [client getMomentFeedHomeNewerThan:date success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self didFetchMomentsSuccessWithOperation:operation
@@ -114,7 +118,7 @@
 - (void)fetchMomentsOlderThan:(double)date {
     self.fetchingMoments = YES;
     
-    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
+    Path *client = [self getPath];
     
     [client getMomentFeedHomeOlderThan:date success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self didFetchMomentsSuccessWithOperation:operation
@@ -132,7 +136,7 @@
     //NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:@"26.093885", @"lat", @"119.30904", @"lng", nil];
     //NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:@"37.418648", @"lat", @"-122.03125", @"lng", nil];
     
-    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
+    Path *client = [self getPath];
     
     [client postComment:comment toMoment:mid at:[NSApp sharedLocation] success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if([[operation response] statusCode] == 200) {
@@ -146,7 +150,7 @@
 }
 
 - (void)postMomentSeenit:(NSArray*)mids {
-    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
+    Path *client = [self getPath];
     
     [client postMomentSeenitOf:mids success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
@@ -156,7 +160,7 @@
 }
 
 - (void)getComments:(NSString*)mids {
-    Path *client = [[Path alloc] initWithUsername:self.email andPassword:self.password];
+    Path *client = [self getPath];
     
     [client getMomentCommentsOf:[mids componentsSeparatedByString:@","] success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if([[operation response] statusCode] == 200) {

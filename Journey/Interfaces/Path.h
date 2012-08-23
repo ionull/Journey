@@ -11,6 +11,9 @@
 #import "AFHTTPClient.h"
 #import "AFJSONRequestOperation.h"
 
+typedef void (^PathSuccess)(AFHTTPRequestOperation *operation, id responseObject);
+typedef void (^PathFailure)(AFHTTPRequestOperation *operation, NSError *error);
+
 extern NSString * const kPathBaseURLString;
 
 @interface Path : AFHTTPClient
@@ -20,29 +23,29 @@ extern NSString * const kPathBaseURLString;
 -(id) initWithUsername: (NSString *)username
            andPassword: (NSString *)password;
 
--(void) getUserSettingsWithSuccess: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                           failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+-(void) getUserSettingsWithSuccess: (PathSuccess)success
+                           failure: (PathFailure)failure;
 
 -(void) getMomentFeedHomeNewerThan: (double)date
-                           success: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                           failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+                           success: (PathSuccess)success
+                           failure: (PathFailure)failure;
 
 -(void) getMomentFeedHomeOlderThan: (double)date
-                           success: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                           failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+                           success: (PathSuccess)success
+                           failure: (PathFailure)failure;
 
 -(void) postMomentSeenitOf: (NSArray *)mids
-                   success: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                   failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+                   success: (PathSuccess)success
+                   failure: (PathFailure)failure;
 
 -(void) getMomentCommentsOf: (NSArray *)mids
-                    success: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                    failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+                    success: (PathSuccess)success
+                    failure: (PathFailure)failure;
 
 -(void) postComment: (NSString *)comment
            toMoment: (NSString *)momentID
                  at: (CLLocation *)location
-            success: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-            failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+            success: (PathSuccess)success
+            failure: (PathFailure)failure;
 
 @end

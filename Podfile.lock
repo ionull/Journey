@@ -15,5 +15,5 @@ DEPENDENCIES:
   - OCHamcrest (~> 1.6)
   - OCMock (~> 1.77.1)
   - SBJson (~> 3.0.4)
-  - SSKeychain (~> 0.1.2)
+  - SSKeychain (~> 0.1.4)
   - Specta (~> 0.1.4)

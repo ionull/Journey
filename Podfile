@@ -3,7 +3,7 @@ platform :osx
 set_arc_compatibility_flag!
 pod 'AFNetworking', '~> 1.0RC1'
 pod 'ConciseKit',     '~> 0.1.1'
-pod 'SSKeychain',     '~> 0.1.2'
+pod 'SSKeychain',     '~> 0.1.4'
 pod 'SBJson',         '~> 3.0.4'
 
 target :test, :exclusive => true do

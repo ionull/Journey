@@ -56,8 +56,8 @@ NSString * const kPathComments = @"/3/moment/comments";
 -(void) enqueuePathRequestOperationWithMethod: (NSString *)method
                                           path: (NSString *)path
                                     parameters: (NSDictionary *)post
-                                       success: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                                       failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+                                       success: (PathSuccess)success
+                                       failure: (PathFailure)failure {
     NSDictionary *parameters = nil;
     if(post) {
         parameters = [NSDictionary dictionaryWithObject:[post JSONRepresentation] forKey:@"post"];
@@ -78,44 +78,44 @@ NSString * const kPathComments = @"/3/moment/comments";
 }
 
 -(void) enqueuePathRequestOperationGetPath: (NSString *)path
-                               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                               failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+                               success:(PathSuccess)success
+                               failure: (PathFailure)failure {
     [self enqueuePathRequestOperationWithMethod: @"GET" path: path parameters: nil success:success failure:failure];
 }
 
 -(void) enqueuePathRequestOperationPostPath: (NSString *)path
                                    parameters: (NSDictionary *)parameters
-                                      success: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                                    failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+                                      success: (PathSuccess)success
+                                    failure: (PathFailure)failure {
     [self enqueuePathRequestOperationWithMethod:@"POST" path:path parameters:parameters success:success failure:failure];
 }
 
 -(void) enqueuePathRequestOperationPutPath: (NSString *)path
                                  parameters: (NSDictionary *)parameters
-                                    success: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                                    failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+                                    success: (PathSuccess)success
+                                    failure: (PathFailure)failure {
     [self enqueuePathRequestOperationWithMethod:@"PUT" path:path parameters:parameters success:success failure:failure];
 }
 
 -(void) enqueuePathRequestOperationDeletePath: (NSString *)path
-                                    success: (void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                                    failure: (void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+                                    success: (PathSuccess)success
+                                    failure: (PathFailure)failure {
     [self enqueuePathRequestOperationWithMethod:@"DELETE" path:path parameters:nil success:success failure:failure];
 }
 
 #pragma mark - user
 
--(void) getUserSettingsWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+-(void) getUserSettingsWithSuccess:(PathSuccess)success failure:(PathFailure)failure {
     [self enqueuePathRequestOperationGetPath:kPathUserSettings success:success failure:failure];
 }
 
 #pragma mark - moment
 
--(void) getMomentFeedHomeWithPath: (NSString *)path success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+-(void) getMomentFeedHomeWithPath: (NSString *)path success:(PathSuccess)success failure:(PathFailure)failure {
     [self enqueuePathRequestOperationGetPath:path success:success failure:failure];
 }
 
--(void) getMomentFeedHomeNewerThan:(double)date success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure {
+-(void) getMomentFeedHomeNewerThan:(double)date success:(PathSuccess)success failure:(PathFailure)failure {
     NSString * path = nil;
     
     if (date != 0.0) {
@@ -127,7 +127,7 @@ NSString * const kPathComments = @"/3/moment/comments";
     [self getMomentFeedHomeWithPath:path success:success failure:failure];
 }
 
--(void) getMomentFeedHomeOlderThan:(double)date success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure {
+-(void) getMomentFeedHomeOlderThan:(double)date success:(PathSuccess)success failure:(PathFailure)failure {
     NSString * path = nil;
     
     if (date != 0.0) {
@@ -139,19 +139,19 @@ NSString * const kPathComments = @"/3/moment/comments";
     [self getMomentFeedHomeWithPath:path success:success failure:failure];
 }
 
--(void) postMomentSeenitOf:(NSArray *)mids success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+-(void) postMomentSeenitOf:(NSArray *)mids success:(PathSuccess)success failure:(PathFailure)failure {
     NSDictionary *post = [NSDictionary dictionaryWithObjectsAndKeys:mids, @"moment_ids", nil];
     [self enqueuePathRequestOperationPostPath:kPathMomentSeenit parameters:post success:success failure:failure];
 }
 
 #pragma mark - comment
 
--(void) getMomentCommentsOf:(NSArray *)mids success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+-(void) getMomentCommentsOf:(NSArray *)mids success:(PathSuccess)success failure:(PathFailure)failure {
     NSString *query = [mids componentsJoinedByString: @","];
     [self enqueuePathRequestOperationGetPath:$str(@"%@?moment_ids=%@", kPathComments, query) success:success failure:failure];
 }
 
--(void) postComment:(NSString *)comment toMoment:(NSString *)momentID at:(CLLocation *)place success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+-(void) postComment:(NSString *)comment toMoment:(NSString *)momentID at:(CLLocation *)place success:(PathSuccess)success failure:(PathFailure)failure {
     NSDictionary* post;
     if(place) {
         NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:$str(@"%+.6f", place.coordinate.latitude), @"lat", $str(@"%+.6f", place.coordinate.longitude), @"lng", nil];
