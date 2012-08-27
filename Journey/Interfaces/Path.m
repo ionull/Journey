@@ -43,11 +43,11 @@ NSString * const kPathComments = @"/3/moment/comments";
     return self;
 }
 
-+(Path*) getPathInstance {
++(Path *) getPathInstance {
 		return [[Path alloc]autorelease];
 }
 
-+(Path*) pathWithUsername:(NSString *)username password:(NSString *)password {
++(Path *) pathWithUsername:(NSString *)username password:(NSString *)password {
 		Path *path = [Path getPathInstance];
 		//TODO initWithBaseURL fail, return with nil.
     [path initWithBaseURL:[NSURL URLWithString:kPathBaseURLString]];

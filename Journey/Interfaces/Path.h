@@ -20,8 +20,8 @@ extern NSString * const kPathBaseURLString;
 
 @property (nonatomic, retain) NSURL *baseUrl;
 
-+(path*) pathwithusername:           (nsstring *)username
-           password:                 (nsstring *)password;
++(Path *) pathWithUsername:          (NSString *)username
+           password:                 (NSString *)password;
 
 -(void) getUserSettingsWithSuccess:  (PathSuccess)success
                            failure:  (PathFailure)failure;
