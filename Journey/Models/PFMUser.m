@@ -58,7 +58,7 @@
 }
 
 - (Path *)getPath {
-    return [[[Path alloc] initWithUsername:self.email andPassword:self.password]autorelease];
+    return [Path pathWithUsername:self.email password:self.password];
 }
 
 - (void)signIn {
