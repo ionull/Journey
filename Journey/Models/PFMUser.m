@@ -42,19 +42,19 @@
 }
 
 - (void)reset {
-  self.oid = nil;
-  self.email = nil;
-  self.password = nil;
-  self.signingIn = NO;
-  self.signedIn = NO;
+  self.oid             = nil;
+  self.email           = nil;
+  self.password        = nil;
+  self.signingIn       = NO;
+  self.signedIn        = NO;
   self.fetchingMoments = NO;
-  self.firstName = nil;
-  self.lastName = nil;
-  self.fetchedMoments = nil;
-  self.coverPhoto = nil;
-  self.profilePhoto = nil;
-  self.allMomentIds = $mdict(nil);
-  self.allMoments = $marr(nil);
+  self.firstName       = nil;
+  self.lastName        = nil;
+  self.fetchedMoments  = nil;
+  self.coverPhoto      = nil;
+  self.profilePhoto    = nil;
+  self.allMomentIds    = $mdict(nil);
+  self.allMoments      = $marr(nil);
 }
 
 - (Path *)getPath {

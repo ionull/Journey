@@ -20,32 +20,32 @@ extern NSString * const kPathBaseURLString;
 
 @property (nonatomic, retain) NSURL *baseUrl;
 
-+(Path*) pathWithUsername: (NSString *)username
-           password: (NSString *)password;
++(path*) pathwithusername:           (nsstring *)username
+           password:                 (nsstring *)password;
 
--(void) getUserSettingsWithSuccess: (PathSuccess)success
-                           failure: (PathFailure)failure;
+-(void) getUserSettingsWithSuccess:  (PathSuccess)success
+                           failure:  (PathFailure)failure;
 
--(void) getMomentFeedHomeNewerThan: (double)date
-                           success: (PathSuccess)success
-                           failure: (PathFailure)failure;
+-(void) getMomentFeedHomeNewerThan:  (double)date
+                           success:  (PathSuccess)success
+                           failure:  (PathFailure)failure;
 
--(void) getMomentFeedHomeOlderThan: (double)date
-                           success: (PathSuccess)success
-                           failure: (PathFailure)failure;
+-(void) getMomentFeedHomeOlderThan:  (double)date
+                           success:  (PathSuccess)success
+                           failure:  (PathFailure)failure;
 
--(void) postMomentSeenitOf: (NSArray *)mids
-                   success: (PathSuccess)success
-                   failure: (PathFailure)failure;
+-(void) postMomentSeenitOf:          (NSArray *)mids
+                   success:          (PathSuccess)success
+                   failure:          (PathFailure)failure;
 
--(void) getMomentCommentsOf: (NSArray *)mids
-                    success: (PathSuccess)success
-                    failure: (PathFailure)failure;
+-(void) getMomentCommentsOf:         (NSArray *)mids
+                    success:         (PathSuccess)success
+                    failure:         (PathFailure)failure;
 
--(void) postComment: (NSString *)comment
-           toMoment: (NSString *)momentID
-                 at: (CLLocation *)location
-            success: (PathSuccess)success
-            failure: (PathFailure)failure;
+-(void) postComment:                 (NSString *)comment
+           toMoment:                 (NSString *)momentID
+                 at:                 (CLLocation *)location
+            success:                 (PathSuccess)success
+            failure:                 (PathFailure)failure;
 
 @end
