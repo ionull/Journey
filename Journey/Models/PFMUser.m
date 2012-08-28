@@ -159,6 +159,15 @@
     }];
 }
 
+- (void)postMomentThought:(NSString*)thought sharing:(NSArray *)sharing {
+    Path *client = [self getPath];
+    [client postMomentAddThought:thought at:[NSApp sharedLocation] sharing:sharing success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //
+    }];
+}
+
 - (void)getComments:(NSString*)mids {
     Path *client = [self getPath];
     

@@ -57,6 +57,7 @@
 - (void)postCommentCreate:(NSString*)mid : (NSString*)comment;
 - (void)getComments:(NSString*)mids;
 - (void)postMomentSeenit:(NSArray*)mids;
+- (void)postMomentThought:(NSString*)thought sharing:(NSArray*)sharing;
 
 - (void)parseMomentsJSON:(NSString *)json
              insertAtTop:(BOOL)atTop;

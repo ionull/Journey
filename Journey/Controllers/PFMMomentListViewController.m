@@ -95,7 +95,7 @@
 
 - (void)postCommentCreate:(NSString*)mid : (NSString*)comment {
     PFMUser *user = [NSApp sharedUser];
-    [user postCommentCreate:mid :comment];
+    [user postCommentCreate:mid :[comment stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
 - (void)didFetchComments:(NSString *)comments {
@@ -117,6 +117,10 @@
 }
 
 #pragma mark - WebFrameLoadDelegate
+
+- (DDURLParser *)getParser: (NSString *)fragment {
+    return [[[DDURLParser alloc] initWithURLString:$str(@"http://localhost/%@", fragment)] autorelease];
+}
 
 - (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id<WebPolicyDecisionListener>)listener {
   if([actionInformation objectForKey:WebActionNavigationTypeKey]) {
@@ -143,7 +147,7 @@
           NSString * const fragCreateComment = @"#create_comment";
           BOOL isCreateComment = [urlString rangeOfString:fragCreateComment].location != NSNotFound;
           if(isCreateComment) {
-              DDURLParser *parser = [[[DDURLParser alloc] initWithURLString:$str(@"http://localhost/%@", [url fragment])] autorelease];
+              DDURLParser *parser = [self getParser:[url fragment]];
               NSString *mid = [parser valueForVariable:@"mid"];
               NSString *comment = [parser valueForVariable:@"comment"];
               [self postCommentCreate:mid :comment];
@@ -153,7 +157,7 @@
           NSString * const fragGetComments = @"#get_comments";
           BOOL isGetComments = [urlString rangeOfString:fragGetComments].location != NSNotFound;
           if(isGetComments) {
-              DDURLParser *parser = [[[DDURLParser alloc] initWithURLString:$str(@"http://localhost/%@", [url fragment])] autorelease];
+              DDURLParser *parser = [self getParser:[url fragment]];
               NSString *mids = [parser valueForVariable:@"mids"];
               PFMUser *user = [NSApp sharedUser];
               [user getComments: mids];
@@ -164,13 +168,24 @@
           NSString * const fragSeenMoments = @"#seen_it";
           BOOL isSeenMoments = [urlString rangeOfString:fragSeenMoments].location != NSNotFound;
           if(isSeenMoments) {
-              DDURLParser *parser = [[[DDURLParser alloc] initWithURLString:$str(@"http://localhost/%@", [url fragment])] autorelease];
+              DDURLParser *parser = [self getParser:[url fragment]];
               NSString *mids = [parser valueForVariable:@"mids"];
               PFMUser *user = [NSApp sharedUser];
               [user postMomentSeenit: [mids componentsSeparatedByString:@","]];
               return;
           }
           
+          NSString * const fragMomentsAddThought = @"#add_thought";
+          BOOL isAddThought = [urlString rangeOfString:fragMomentsAddThought].location != NSNotFound;
+          if(isAddThought) {
+              DDURLParser *parser = [self getParser:[url fragment]];
+              NSString *thought = [parser valueForVariable:@"thought"];
+              PFMUser *user = [NSApp sharedUser];
+              NSMutableArray *sharing = [NSMutableArray array];
+              [sharing addObject:@"twitter"];//TODO select sharing
+              [user postMomentThought:[thought stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] sharing:sharing];
+              return;
+          }
       }
     }
   }

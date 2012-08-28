@@ -34,6 +34,12 @@ extern NSString * const kPathBaseURLString;
                            success:  (PathSuccess)success
                            failure:  (PathFailure)failure;
 
+-(void) postMomentAddThought:        (NSString *)thought
+                          at:        (CLLocation *)place
+                     sharing:        (NSArray *)sharing
+                     success:        (PathSuccess)success
+                     failure:        (PathFailure)failure;
+
 -(void) postMomentSeenitOf:          (NSArray *)mids
                    success:          (PathSuccess)success
                    failure:          (PathFailure)failure;

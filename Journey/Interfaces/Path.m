@@ -18,6 +18,7 @@ NSString * const kPathUserSettings = @"/3/user/settings";
 // moment
 NSString * const kPathMomentFeedHome = @"/3/moment/feed/home";
 NSString * const kPathMomentSeenit = @"/3/moment/seenit";
+NSString * const kPathMomentAdd = @"/3/moment/add";
 
 // comment
 NSString * const kPathCommentsAdd = @"/3/moment/comments/add";
@@ -150,6 +151,19 @@ NSString * const kPathComments = @"/3/moment/comments";
     [self enqueuePathRequestOperationPostPath:kPathMomentSeenit parameters:post success:success failure:failure];
 }
 
+-(void) postMomentAddThought:(NSString *)thought at:(CLLocation *)place sharing:(NSArray *)sharing success:(PathSuccess)success failure:(PathFailure)failure {
+    NSDictionary* thoughtDict = [NSDictionary dictionaryWithObject:thought forKey:@"body"];
+    NSDictionary* post;
+    if(place) {
+        NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:$str(@"%+.6f", place.coordinate.latitude), @"lat", $str(@"%+.6f", place.coordinate.longitude), @"lng", nil];
+        post = [NSDictionary dictionaryWithObjectsAndKeys:@"thought", @"type", thoughtDict, @"thought", location, @"location", nil];
+    } else {
+        post = [NSDictionary dictionaryWithObjectsAndKeys:@"thought", @"type", thoughtDict, @"thought", nil];
+    }
+    
+    [self enqueuePathRequestOperationPostPath:kPathMomentAdd parameters:post success:success failure:failure];
+}
+
 #pragma mark - comment
 
 -(void) getMomentCommentsOf:(NSArray *)mids success:(PathSuccess)success failure:(PathFailure)failure {
@@ -161,9 +175,9 @@ NSString * const kPathComments = @"/3/moment/comments";
     NSDictionary* post;
     if(place) {
         NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:$str(@"%+.6f", place.coordinate.latitude), @"lat", $str(@"%+.6f", place.coordinate.longitude), @"lng", nil];
-        post = [NSDictionary dictionaryWithObjectsAndKeys:momentID, @"moment_id", [comment stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding], @"body", location, @"location", nil];
+        post = [NSDictionary dictionaryWithObjectsAndKeys:momentID, @"moment_id", comment, @"body", location, @"location", nil];
     } else {
-        post = [NSDictionary dictionaryWithObjectsAndKeys:momentID, @"moment_id", [comment stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding], @"body", nil];
+        post = [NSDictionary dictionaryWithObjectsAndKeys:momentID, @"moment_id", comment, @"body", nil];
     }
 
     [self enqueuePathRequestOperationPostPath:kPathCommentsAdd parameters:post success:success failure:failure];
