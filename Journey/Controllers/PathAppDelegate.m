@@ -2,6 +2,7 @@
 #import "PFMSignInWindowController.h"
 #import "PFMMainWindowController.h"
 #import "PFMMomentListViewController.h"
+#import "PathAddThoughtWindowController.h"
 #import "Application.h"
 
 @implementation PathAppDelegate
@@ -41,6 +42,12 @@
 
 - (IBAction)quitApp:(id)sender {
   [(NSApplication *)NSApp terminate:nil];
+}
+
+- (IBAction)addThought:(id)sender {
+    PathAddThoughtWindowController *controller = [[[PathAddThoughtWindowController alloc]init]autorelease];
+    [controller showWindow:[controller self]];
+    [[controller window]focus];
 }
 
 -(void)awakeFromNib{

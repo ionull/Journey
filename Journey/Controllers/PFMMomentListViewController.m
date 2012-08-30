@@ -178,12 +178,18 @@
           NSString * const fragMomentsAddThought = @"#add_thought";
           BOOL isAddThought = [urlString rangeOfString:fragMomentsAddThought].location != NSNotFound;
           if(isAddThought) {
+              //TODO pop add thought window
+              
+              /*
               DDURLParser *parser = [self getParser:[url fragment]];
               NSString *thought = [parser valueForVariable:@"thought"];
               PFMUser *user = [NSApp sharedUser];
               NSMutableArray *sharing = [NSMutableArray array];
               [sharing addObject:@"twitter"];//TODO select sharing
               [user postMomentThought:[thought stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] sharing:sharing];
+               */
+              
+              [(PathAppDelegate *)[NSApp delegate] addThought:nil];
               return;
           }
       }

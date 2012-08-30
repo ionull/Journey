@@ -153,12 +153,10 @@ NSString * const kPathComments = @"/3/moment/comments";
 
 -(void) postMomentAddThought:(NSString *)thought at:(CLLocation *)place sharing:(NSArray *)sharing success:(PathSuccess)success failure:(PathFailure)failure {
     NSDictionary* thoughtDict = [NSDictionary dictionaryWithObject:thought forKey:@"body"];
-    NSDictionary* post;
+    NSMutableDictionary* post = [NSMutableDictionary dictionaryWithObjectsAndKeys:thoughtDict, @"thought", @"thought", @"type", sharing, @"sharing", nil];
     if(place) {
         NSDictionary* location = [NSDictionary dictionaryWithObjectsAndKeys:$str(@"%+.6f", place.coordinate.latitude), @"lat", $str(@"%+.6f", place.coordinate.longitude), @"lng", nil];
-        post = [NSDictionary dictionaryWithObjectsAndKeys:@"thought", @"type", thoughtDict, @"thought", location, @"location", nil];
-    } else {
-        post = [NSDictionary dictionaryWithObjectsAndKeys:@"thought", @"type", thoughtDict, @"thought", nil];
+        [post setObject:location forKey:@"location"];
     }
     
     [self enqueuePathRequestOperationPostPath:kPathMomentAdd parameters:post success:success failure:failure];

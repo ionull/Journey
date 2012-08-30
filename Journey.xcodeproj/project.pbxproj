@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		ADBFC6DEAB4F4E14AE683583 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEC0C9312904ABA8CE686A2 /* libPods.a */; };
 		E70209C715D905290028ED16 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E70209C415D904A30028ED16 /* CoreLocation.framework */; };
+		E713186615EDBF18004B8E77 /* PathAddThoughtWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E713186515EDBF18004B8E77 /* PathAddThoughtWindowController.m */; };
 		E75B9A2E15D2DFC90016AF7C /* DDURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E75B9A2D15D2DFC90016AF7C /* DDURLParser.m */; };
+		E772122715EFA0EA00A8F434 /* PathAddThoughtWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E772122615EFA0EA00A8F434 /* PathAddThoughtWindow.xib */; };
 		E7E5CC4515E4906B000D961B /* Path.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E5CC4415E4906B000D961B /* Path.m */; };
 		E91CCEDA14E4413100DA6E96 /* ASIHTTPRequest+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E91CCED914E4413100DA6E96 /* ASIHTTPRequest+Spec.m */; };
 		E91CCEF614E4655400DA6E96 /* PFMMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E91CCEF514E4655400DA6E96 /* PFMMainWindowController.m */; };
@@ -94,8 +96,11 @@
 /* Begin PBXFileReference section */
 		3762FDED24BF40BDAF87D96A /* Pods.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		E70209C415D904A30028ED16 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E713186415EDBF18004B8E77 /* PathAddThoughtWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathAddThoughtWindowController.h; sourceTree = "<group>"; };
+		E713186515EDBF18004B8E77 /* PathAddThoughtWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathAddThoughtWindowController.m; sourceTree = "<group>"; };
 		E75B9A2C15D2DFC90016AF7C /* DDURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDURLParser.h; sourceTree = "<group>"; };
 		E75B9A2D15D2DFC90016AF7C /* DDURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDURLParser.m; sourceTree = "<group>"; };
+		E772122615EFA0EA00A8F434 /* PathAddThoughtWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PathAddThoughtWindow.xib; sourceTree = "<group>"; };
 		E7E5CC4315E4906B000D961B /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Path.h; sourceTree = "<group>"; };
 		E7E5CC4415E4906B000D961B /* Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Path.m; sourceTree = "<group>"; };
 		E91CCED414E4349100DA6E96 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
@@ -422,6 +427,8 @@
 				E9B9D9AA14E672B4005D5B5B /* PFMMomentListViewController.m */,
 				E9B9D9B314E67BA4005D5B5B /* PFMToolbarViewController.h */,
 				E9B9D9B414E67BA4005D5B5B /* PFMToolbarViewController.m */,
+				E713186415EDBF18004B8E77 /* PathAddThoughtWindowController.h */,
+				E713186515EDBF18004B8E77 /* PathAddThoughtWindowController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -494,6 +501,7 @@
 				E9B9D9C514E68017005D5B5B /* PFMThemedWindow.m */,
 				E9B9D9CA14E68D5F005D5B5B /* PFMUnclickableImageView.h */,
 				E9B9D9CB14E68D5F005D5B5B /* PFMUnclickableImageView.m */,
+				E772122615EFA0EA00A8F434 /* PathAddThoughtWindow.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -589,6 +597,7 @@
 				E9C75DC514F6A5C700F564A0 /* StatusItemIconSelected.png in Resources */,
 				E95FB1B314FA3B3300B2DF1A /* LICENSE.md in Resources */,
 				E95FB1B414FA3B3600B2DF1A /* README.md in Resources */,
+				E772122715EFA0EA00A8F434 /* PathAddThoughtWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,6 +674,7 @@
 				E9C75DC814F6C1D300F564A0 /* NSWindow+PFMAdditions.m in Sources */,
 				E75B9A2E15D2DFC90016AF7C /* DDURLParser.m in Sources */,
 				E7E5CC4515E4906B000D961B /* Path.m in Sources */,
+				E713186615EDBF18004B8E77 /* PathAddThoughtWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

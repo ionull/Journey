@@ -15,6 +15,7 @@
 
       Path.handleWindowScroll();
       Path.handleKeyup();
+      Path.handleClick();
       window.setInterval(self.didClickRefreshButton, 15000);
       $('.friend.dot').cycle({fx: 'fade'});
     }
@@ -193,15 +194,13 @@
 		  }
 	});
   }
-	, log: function(url) {
-		self.didClickRefreshButton();
-		if(url) {
-			var m = $('ul.moments');
-			if(m) {
-				//m.html('url' + url);
-			}
-		}
-	}
+
+  , handleClick: function() {
+	  $(window).click(function(e) {
+		  //TODO path menu to add thought
+		  //document.location.replace('#add_thought');
+	  });
+  }
 
   , showLoadingMessage: function() {
       $('ul.moments').append('<li class="moment fetching"></li>');
